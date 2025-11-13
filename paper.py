@@ -69,29 +69,15 @@ class ArxivPaper:
             logger.debug(f"DEBUG: Processing Paper ID: {self._paper.entry_id}") # <--- ADD THIS
             logger.debug(f"DEBUG: Paper Title: {self._paper.title}")            # <--- ADD THIS
             logger.debug(f"DEBUG: PDF URL: {self._paper.pdf_url}")              # <--- ADD THIS
+            logger.debug(f"DEBUG: get_short_id" {self._paper.get_short_id})
 
-            # --- FIX STARTS HERE ---
-            # If the library returns None for the PDF URL, manually construct it
+            # Check if pdf_url exists before trying to download source
             if not self._paper.pdf_url:
-                # Construct standard ArXiv PDF URL: https://arxiv.org/pdf/{id}.pdf
-                constructed_url = f"http://arxiv.org/pdf/{self.arxiv_id}.pdf"
-                logger.warning(f"PDF URL missing. Manually patching to: {constructed_url}")
-                
-                # Inject the URL back into the _paper object so download_source can use it
-                self._paper.pdf_url = constructed_url
-            # --- FIX ENDS HERE ---
+                print(f"Skipping paper {self._paper.entry_id}: No PDF URL available.")
+                return None # Or handle the skip gracefully depending on your logic
 
-            try:
-                # Now this method has a valid string to work with
-                file = self._paper.download_source(dirpath=tmpdirname)
-                
-                # Add your logic here to return the dict[str, str] 
-                # based on the downloaded file...
-                return file # Placeholder based on your snippet
-
-            except Exception as e:
-                logger.error(f"Failed to download source for {self.arxiv_id}: {e}")
-                return {} # Return empty dict on failure
+            # Original code
+            file = self._paper.download_source(dirpath=tmpdirname)
 
             # file = self._paper.download_source(dirpath=tmpdirname)
             try:
