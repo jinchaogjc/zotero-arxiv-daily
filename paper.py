@@ -66,9 +66,9 @@ class ArxivPaper:
     def tex(self) -> dict[str,str]:
         with ExitStack() as stack:
             tmpdirname = stack.enter_context(TemporaryDirectory())
-            print(f"DEBUG: Processing Paper ID: {self._paper.entry_id}") # <--- ADD THIS
-            print(f"DEBUG: Paper Title: {self._paper.title}")            # <--- ADD THIS
-            print(f"DEBUG: PDF URL: {self._paper.pdf_url}")              # <--- ADD THIS
+            logger.debug(f"DEBUG: Processing Paper ID: {self._paper.entry_id}") # <--- ADD THIS
+            logger.debug(f"DEBUG: Paper Title: {self._paper.title}")            # <--- ADD THIS
+            logger.debug(f"DEBUG: PDF URL: {self._paper.pdf_url}")              # <--- ADD THIS
             file = self._paper.download_source(dirpath=tmpdirname)
             try:
                 tar = stack.enter_context(tarfile.open(file))
