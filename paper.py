@@ -69,7 +69,7 @@ class ArxivPaper:
             logger.debug(f"DEBUG: Processing Paper ID: {self._paper.entry_id}") # <--- ADD THIS
             logger.debug(f"DEBUG: Paper Title: {self._paper.title}")            # <--- ADD THIS
             logger.debug(f"DEBUG: PDF URL: {self._paper.pdf_url}")              # <--- ADD THIS
-            logger.debug(f"DEBUG: get_short_id" {self._paper.get_short_id})
+            logger.debug(f"DEBUG: get_short_id: {self._paper.get_short_id}")
 
             # Check if pdf_url exists before trying to download source
             if not self._paper.pdf_url:
