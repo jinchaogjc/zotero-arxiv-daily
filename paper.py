@@ -71,13 +71,17 @@ class ArxivPaper:
             logger.debug(f"DEBUG: PDF URL: {self._paper.pdf_url}")              # <--- ADD THIS
             logger.debug(f"DEBUG: get_short_id: {self._paper.get_short_id}")
             logger.debug(f"DEBUG: links: {self._paper.links}")
-            logger.debug(f"DEBUG: Link: {self._paper.Link}")
 
             # Check if pdf_url exists before trying to download source
             if not self._paper.pdf_url:
                 print(f"Skipping paper {self._paper.entry_id}: No PDF URL available.")
                 # file = self._paper.links
-                return None # Or handle the skip gracefully depending on your logic
+                for link in self._paper.links:
+                    if "/pdf/" in link.href:
+                        logger.debug(f"DEBUG: links: {link.href}")
+                        self._paper.pdf_url = link.href
+                        break
+                 # Or handle the skip gracefully depending on your logic
 
             # Original code
             file = self._paper.download_source(dirpath=tmpdirname)
